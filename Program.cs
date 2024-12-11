@@ -3,66 +3,40 @@ using System.Security.Cryptography.X509Certificates;
 
 class Program
 {
-        //Variable
-        public  static bool quitGame=false;
-        public static bool playerTurn =true;
-        public static char[,] board;
+    //Variable
+    public static bool quitGame = false;
+    public static bool playerTurn = true;
+    public static char[,] board;
 
-         //Fonction 
-        static void Main(string[] args)
+    //Fonction 
+    static void Main(string[] args)
+    {
+        //bouble de jeu / Game loop
+        while (!quitGame)
         {
-            //bouble de jeu / Game loop
+            board = new char[3, 3]
+            {
+                    { ' ', ' ', ' ' },
+                    { ' ', ' ', ' ' },
+                    { ' ', ' ', ' ' },
+            };
             while (!quitGame)
             {
-                board = new char[3, 3]
+                if (playerTurn)
                 {
-                    { ' ', ' ', ' ' },
-                    { ' ', ' ', ' ' },
-                    { ' ', ' ', ' ' },
-                };
-                while (!quitGame)
-                {
-                    if (playerTurn)
-                    {
-                        PlayerTurn();
-                    }
-                    else
-                    {
-                        ComputerTurn();
-                    }
-
-                    playerTurn = !playerTurn;
+                    PlayerTurn();
                 }
-                if (!quitGame)
+                else
                 {
-                    Console.WriteLine("Appuyer sur [Escape] pour quitter");
-                    Getkey:
-
-                    switch (Console.ReadKey(true).Key)
-                    {
-                        case ConsoleKey.Escape:
-
-                            quitGame = true;
-                            Console.Clear();
-                            break;
-                    }
+                    ComputerTurn();
                 }
+
+                playerTurn = !playerTurn;
             }
-        }
-        public static void PlayerTurn()
-        {
-            var(row, column) = (0, 0);
-            bool moved = false;
-
-            while(!quitGame && !moved)
+            if (!quitGame)
             {
-                Console.Clear();
-                RenderBoard();
-
-                Console.WriteLine();
-                Console.WriteLine("Choisir une case valide puis appuyer sur [Entre].");
-
-                Console.SetCursorPosition(column * 6 + 1, row * 4 + 1);
+                Console.WriteLine("Appuyer sur [Escape] pour quitter");
+                Getkey:
 
                 switch (Console.ReadKey(true).Key)
                 {
@@ -71,6 +45,32 @@ class Program
                         quitGame = true;
                         Console.Clear();
                         break;
+                }
+            }
+        }
+    }
+    public static void PlayerTurn()
+    {
+        var (row, column) = (0, 0);
+        bool moved = false;
+
+        while (!quitGame && !moved)
+        {
+            Console.Clear();
+            RenderBoard();
+
+            Console.WriteLine();
+            Console.WriteLine("Choisir une case valide puis appuyer sur [Entre].");
+
+            Console.SetCursorPosition(column * 6 + 1, row * 4 + 1);
+
+            switch (Console.ReadKey(true).Key)
+            {
+                case ConsoleKey.Escape:
+
+                    quitGame = true;
+                    Console.Clear();
+                    break;
 
                 case ConsoleKey.RightArrow:
 
@@ -120,6 +120,7 @@ class Program
                     }
                     break;
 
+
                 case ConsoleKey.Enter:
                     if (board[row, column] is ' ')
                     {
@@ -128,25 +129,28 @@ class Program
                     }
                     break;
             }
-            }
-        }
-        public static void ComputerTurn()
-        {
 
         }
-        
-        public static void RenderBoard()
-        {
-            Console.WriteLine();
-            Console.WriteLine($" {board[0, 0]}  |  {board[0, 1]}  |  {board[0, 2]}");
-            Console.WriteLine("    |     |");
-            Console.WriteLine("----+-----+----");
-            Console.WriteLine("    |     |");
-            Console.WriteLine($" {board[1, 0]}  |  {board[1, 1]}  |  {board[1, 2]}");
-            Console.WriteLine("    |     |");
-            Console.WriteLine("----+-----+----");
-            Console.WriteLine("    |     |");
-            Console.WriteLine($" {board[2, 0]}  |  {board[2, 1]}  |  {board[2, 2]}");
-        }
+
     }
+
+    public static void ComputerTurn()
+    {
+
+    }
+
+    public static void RenderBoard()
+    {
+        Console.WriteLine();
+        Console.WriteLine($" {board[0, 0]}  |  {board[0, 1]}  |  {board[0, 2]}");
+        Console.WriteLine("    |     |");
+        Console.WriteLine("----+-----+----");
+        Console.WriteLine("    |     |");
+        Console.WriteLine($" {board[1, 0]}  |  {board[1, 1]}  |  {board[1, 2]}");
+        Console.WriteLine("    |     |");
+        Console.WriteLine("----+-----+----");
+        Console.WriteLine("    |     |");
+        Console.WriteLine($" {board[2, 0]}  |  {board[2, 1]}  |  {board[2, 2]}");
+    }
+}
 
